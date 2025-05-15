@@ -16,23 +16,29 @@ class _ThemeTestPageState extends State<ThemeTestPage> {
 
   bool isDarkTheme = false;
 
-  void putTheme() async{
+  void putTheme(bool isDark) async{
     SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setBool('theme', isDarkTheme);
+    pref.setBool('theme', isDark);
+    pref.setString('type', '');
     print('settedd $isDarkTheme');
   }
+@override
+void initState() {
+  super.initState();
+  getTheme(); // async call
+}
 
-  void getTheme() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    isDarkTheme = pref.getBool('theme')!;
-    print(' theme $isDarkTheme');
-  }
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getTheme();
-  }
+void getTheme() async {
+  SharedPreferences pref = await SharedPreferences.getInstance();
+  bool savedTheme = pref.getBool('theme') ?? false;
+
+  setState(() {
+    isDarkTheme = savedTheme;
+  });
+
+  print('Theme loaded: $isDarkTheme');
+}
+
   @override
   Widget build(BuildContext context) {
       final theme = Provider.of<ThemeProvider>(context);
@@ -42,13 +48,13 @@ class _ThemeTestPageState extends State<ThemeTestPage> {
         title: const Text("Theme Test"),
         actions: [
           IconButton(onPressed: (){
-           theme.toggle(isDarkTheme);
+         
            setState(() {
              isDarkTheme = !isDarkTheme;
              print('object $isDarkTheme');
-             putTheme();
+             putTheme(isDarkTheme);
            });
-        
+          theme.toggle(isDarkTheme);
           }, icon: isDarkTheme ? const Icon(Icons.visibility_outlined) : const Icon(Icons.visibility_off_outlined))
         ],
       ),
