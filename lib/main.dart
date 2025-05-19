@@ -1,8 +1,8 @@
-import 'package:daily_tasks/day_1/pages/homepage.dart';
 import 'package:daily_tasks/day_1/provider.dart';
-import 'package:daily_tasks/day_2/pages/page1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'day_3/expandable_list.dart';
 
 void main() {
   runApp(
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: theme.themeMode,
-      home: Page1(),
+      home: ExpandableList(),
     );
   }
 }
