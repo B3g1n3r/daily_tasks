@@ -1,5 +1,6 @@
 import 'package:daily_tasks/day_1/pages/homepage.dart';
 import 'package:daily_tasks/day_1/provider.dart';
+import 'package:daily_tasks/day_2/pages/page1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: theme.themeMode,
-      home: ThemeTestPage(),
+      home: Page1(),
     );
   }
 }

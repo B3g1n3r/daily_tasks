@@ -36,7 +36,6 @@ void getTheme() async {
     isDarkTheme = savedTheme;
   });
 
-  print('Theme loaded: $isDarkTheme');
 }
 
   @override
@@ -51,7 +50,6 @@ void getTheme() async {
          
            setState(() {
              isDarkTheme = !isDarkTheme;
-             print('object $isDarkTheme');
              putTheme(isDarkTheme);
            });
           theme.toggle(isDarkTheme);
