@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "819624360780",
+    "project_id": "tasks-cda9a",
+    "storage_bucket": "tasks-cda9a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819624360780:android:473be26de0091ca6f12de9",
+        "android_client_info": {
+          "package_name": "com.example.daily_tasks"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQRMhebWuyxZX_D8e1sKayj6zoSeMbB6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
