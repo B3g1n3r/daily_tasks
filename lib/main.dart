@@ -1,5 +1,7 @@
 import 'package:daily_tasks/day_1/provider.dart';
 import 'package:daily_tasks/day_4/pages/homepage.dart';
+import 'package:daily_tasks/day_4/pages/wrapper.dart';
+import 'package:daily_tasks/day_4/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -10,7 +12,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    ChangeNotifierProvider(create: (_)=> ThemeProvider(), 
+    ChangeNotifierProvider(create: (_)=> Service(), 
     child: const MyApp(),)
   );
 }
@@ -21,11 +23,9 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    final theme = Provider.of<ThemeProvider>(context);
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Flutter Demo',
-      theme: theme.themeMode,
-      home: Homepage(),
+      home: Wrapper(),
     );
   }
 }

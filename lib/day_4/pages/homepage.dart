@@ -1,3 +1,4 @@
+import 'package:daily_tasks/day_4/service/service.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -8,11 +9,21 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+
+  void logout() async{
+    await Service().logout();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('homepage'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Center(
+            child: Text('homepage'),
+          ),
+          ElevatedButton(onPressed: logout, child: const Text('logout'))
+        ],
       ),
     );
   }
