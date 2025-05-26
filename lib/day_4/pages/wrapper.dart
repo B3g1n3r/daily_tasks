@@ -3,7 +3,6 @@ import 'package:daily_tasks/day_4/pages/homepage.dart';
 import 'package:daily_tasks/day_4/service/service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({super.key});
