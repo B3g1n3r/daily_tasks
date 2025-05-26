@@ -11,10 +11,10 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
-  void logout() async{
+  void logout() async {
     await Service().logout();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,24 +25,40 @@ class _HomepageState extends State<Homepage> {
             child: Text('homepage'),
           ),
           ElevatedButton(onPressed: logout, child: const Text('logout')),
-          ElevatedButton(onPressed: (){
-              Database().setText('Count');
-            }, child: const Text('Add text')),
-            Expanded(child: StreamBuilder(stream: Database().getText(), 
-            builder: (context, snapshot){
-              final data = snapshot.data;
-              if (!snapshot.hasData || data == null || data.isEmpty) {
-                return const Center(
-                  child: Text('No data'),
-                );
-              }else{
-                return  ListView.builder(
-                  itemCount: data.length,
-                  itemBuilder: (context, index){
-                  return ListTile(title: Text(data[index]),);
-                });
-              }
-            }))
+          ElevatedButton(
+              onPressed: () {
+                Database().setText('Count');
+              },
+              child: const Text('Add text')),
+          Expanded(
+              child: StreamBuilder(
+                  stream: Database().getText(),
+                  builder: (context, snapshot) {
+                    final data = snapshot.data;
+                    if (!snapshot.hasData || data == null || data.isEmpty) {
+                      return const Center(
+                        child: Text('No data'),
+                      );
+                    } else {
+                      return ListView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (context, index) {
+                            final document = data[index];
+                            return Card(
+                              elevation: 5,
+                              child: ListTile(
+                                title: Text(document['Description']),
+                                trailing: GestureDetector(
+                                  onTap: (){
+                                    Database().deleteText(document.id);
+                                  },
+                                  child: const Icon(Icons.delete_outline),
+                                ),
+                              ),
+                            );
+                          });
+                    }
+                  }))
         ],
       ),
     );

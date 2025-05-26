@@ -11,19 +11,20 @@ class Database {
         .collection('new_sample')
         .add({'Description': '$text ${a++}'});
     print('added succesfully');
-  }
+    }
 
-  Stream<List<String>> getText() {
-    return sample
-        .doc('number_one')
-        .collection('new_sample')
-        .snapshots()
-        .map((snap) {
-      return snap.docs.map((doc) {
-        final data = doc.data();
-        return data['Description'] as String;
-      }).toList();
-    });
-  }
+    Stream<List<QueryDocumentSnapshot>> getText() {
+      return sample
+          .doc('number_one')
+          .collection('new_sample')
+          .snapshots()
+          .map((snap) {
+        return snap.docs;
+      });
+    }
   
+
+  void deleteText(String id) async {
+    await sample.doc('number_one').collection('new_sample').doc(id).delete();
+  }
 }
