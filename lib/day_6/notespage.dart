@@ -46,8 +46,8 @@ class _NotespageState extends State<Notespage> {
                                 const end = Offset.zero;
                                 final curve = CurvedAnimation(parent: animation, curve: Curves.easeInCubic);
                                 final tween =  Tween(begin: begin, end:end);
-
-                                return SlideTransition(position: tween.animate(curve), child: child, );
+                                return FadeTransition(opacity: animation, child: child,);
+                               // return SlideTransition(position: tween.animate(curve), child: child, );
                               },
                               pageBuilder: (context, ani1, ani2)=> Notesview(notes: content)));
                           },
