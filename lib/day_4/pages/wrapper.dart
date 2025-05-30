@@ -1,6 +1,6 @@
 import 'package:daily_tasks/day_4/pages/authenticate.dart';
-import 'package:daily_tasks/day_4/pages/homepage.dart';
 import 'package:daily_tasks/day_4/service/service.dart';
+import 'package:daily_tasks/day_6/notespage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,7 @@ class Wrapper extends StatelessWidget {
       if(snap.connectionState == ConnectionState.waiting){
         return const Center(child: CircularProgressIndicator(),);
       }else if(snap.hasData){
-        return const Homepage();
+        return const Notespage();
       }else{
         return const Authenticate();
       }

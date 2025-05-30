@@ -1,5 +1,6 @@
 import 'package:daily_tasks/day_5/database.dart';
 import 'package:daily_tasks/day_6/notesview.dart';
+import 'package:daily_tasks/day_7/notificationService.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -13,6 +14,13 @@ class Notespage extends StatefulWidget {
 class _NotespageState extends State<Notespage> {
   final user = FirebaseAuth.instance.currentUser!.uid;
   final notes = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Notificationservice().initialize();
+  }
   @override
   Widget build(BuildContext context) {
     print('user $user');
@@ -36,29 +44,45 @@ class _NotespageState extends State<Notespage> {
                       itemCount: snapData.length,
                       itemBuilder: (context, index) {
                         final doc = snapData[index];
-                        final String content = doc['content'] ??'no notes';
+                        final String content = doc['content'] ?? 'no notes';
                         return InkWell(
                           onTap: () {
-                            Navigator.push(context, PageRouteBuilder(
-                              transitionDuration: const Duration(seconds: 2),
-                              transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                                const begin = Offset(1, 0);
-                                const end = Offset.zero;
-                                final curve = CurvedAnimation(parent: animation, curve: Curves.easeInCubic);
-                                final tween =  Tween(begin: begin, end:end);
-                                // return FadeTransition(opacity: animation, child: child,);
-                               return SlideTransition(position: tween.animate(curve), child: child, );
-                              },
-                              pageBuilder: (context, ani1, ani2)=> Notesview(uid: user, notesId:snapData[index].id ,notes: content)));
+                            Navigator.push(
+                                context,
+                                PageRouteBuilder(
+                                    transitionDuration:
+                                        const Duration(seconds: 2),
+                                    transitionsBuilder: (context, animation,
+                                        secondaryAnimation, child) {
+                                      const begin = Offset(1, 0);
+                                      const end = Offset.zero;
+                                      final curve = CurvedAnimation(
+                                          parent: animation,
+                                          curve: Curves.easeInCubic);
+                                      final tween =
+                                          Tween(begin: begin, end: end);
+                                      // return FadeTransition(opacity: animation, child: child,);
+                                      return SlideTransition(
+                                        position: tween.animate(curve),
+                                        child: child,
+                                      );
+                                    },
+                                    pageBuilder: (context, ani1, ani2) =>
+                                        Notesview(
+                                            uid: user,
+                                            notesId: snapData[index].id,
+                                            notes: content)));
                           },
                           child: GestureDetector(
                             onLongPress: () {
                               Database().deleteNotes(user, snapData[index].id);
+                              Notificationservice().showNotification();
                             },
                             child: Card(
                                 color: Colors.greenAccent,
                                 child: Center(
-                                    child: Text( content,
+                                    child: Text(
+                                  content,
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                 ))),
@@ -66,11 +90,11 @@ class _NotespageState extends State<Notespage> {
                         );
                       },
                       gridDelegate:
-                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 200,
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10,
                         childAspectRatio: 3 / 2,
+                        crossAxisCount: 2,
                       ),
                     );
                   }
