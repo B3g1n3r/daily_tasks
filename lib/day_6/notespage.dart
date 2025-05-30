@@ -46,18 +46,23 @@ class _NotespageState extends State<Notespage> {
                                 const end = Offset.zero;
                                 final curve = CurvedAnimation(parent: animation, curve: Curves.easeInCubic);
                                 final tween =  Tween(begin: begin, end:end);
-                                return FadeTransition(opacity: animation, child: child,);
-                               // return SlideTransition(position: tween.animate(curve), child: child, );
+                                // return FadeTransition(opacity: animation, child: child,);
+                               return SlideTransition(position: tween.animate(curve), child: child, );
                               },
-                              pageBuilder: (context, ani1, ani2)=> Notesview(notes: content)));
+                              pageBuilder: (context, ani1, ani2)=> Notesview(uid: user, notesId:snapData[index].id ,notes: content)));
                           },
-                          child: Card(
-                              color: Colors.greenAccent,
-                              child: Center(
-                                  child: Text( content,
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ))),
+                          child: GestureDetector(
+                            onLongPress: () {
+                              Database().deleteNotes(user, snapData[index].id);
+                            },
+                            child: Card(
+                                color: Colors.greenAccent,
+                                child: Center(
+                                    child: Text( content,
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ))),
+                          ),
                         );
                       },
                       gridDelegate:

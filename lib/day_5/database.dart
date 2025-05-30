@@ -42,4 +42,12 @@ class Database {
       return snap.docs;
     });
   }
+  void deleteNotes(String uid, String notesId) async{
+   await notes.doc(uid).collection('notes').doc(notesId).delete();
+  }
+  void updateNotes(String uid, String notesId, String note) async{
+    await notes.doc(uid).collection('notes').doc(notesId).set({
+      'content':note
+    });
+  }
 }
