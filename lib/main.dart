@@ -1,3 +1,4 @@
+import 'package:daily_tasks/day_4/pages/wrapper.dart';
 import 'package:daily_tasks/day_4/service/service.dart';
 import 'package:daily_tasks/day_6/notespage.dart';
 import 'package:daily_tasks/day_7/notificationService.dart';
@@ -10,6 +11,7 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final notificationService = Notificationservice();
+  await notificationService.requestNotificationPermission();
   await notificationService.initialize();
   runApp(
     ChangeNotifierProvider(create: (_)=> Service(), 
@@ -19,13 +21,11 @@ void main() async{
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return  const MaterialApp(
       title: 'Flutter Demo',
-      home: Notespage(),
+      home: Wrapper(),
     );
   }
 }

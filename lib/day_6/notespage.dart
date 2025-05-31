@@ -76,7 +76,7 @@ class _NotespageState extends State<Notespage> {
                           child: GestureDetector(
                             onLongPress: () {
                               Database().deleteNotes(user, snapData[index].id);
-                              Notificationservice().showNotification();
+                              Notificationservice().showNotification(doc['content'] ??'no data');
                             },
                             child: Card(
                                 color: Colors.greenAccent,

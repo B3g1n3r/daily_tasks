@@ -6,8 +6,6 @@ class Notificationservice {
       FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
-
-    requestNotificationPermission();
     const AndroidInitializationSettings android =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
@@ -18,12 +16,12 @@ class Notificationservice {
     print('initialize');
   }
 
-  Future<void> showNotification() async {
+  Future<void> showNotification(String data) async {
     const AndroidNotificationDetails android = AndroidNotificationDetails('notification_1', 'notify',
         importance: Importance.high, priority: Priority.high);
     const NotificationDetails notification = NotificationDetails(android: android);
 
-    await notificationsPlugin.show(0, 'testing', 'Deleted', notification);    
+    await notificationsPlugin.show(0, 'testing', data, notification);    
     print(' show notification');
   }
 
@@ -32,6 +30,8 @@ class Notificationservice {
   var status = await Permission.notification.status;
   if (!status.isGranted) {
     await Permission.notification.request();
+  }else{
+    
   }
 }
 }
