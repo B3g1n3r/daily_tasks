@@ -1,6 +1,5 @@
 import 'package:daily_tasks/day_4/pages/wrapper.dart';
 import 'package:daily_tasks/day_4/service/service.dart';
-import 'package:daily_tasks/day_6/notespage.dart';
 import 'package:daily_tasks/day_7/notificationService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
