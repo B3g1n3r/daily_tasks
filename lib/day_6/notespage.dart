@@ -27,6 +27,9 @@ class _NotespageState extends State<Notespage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
+        actions: [IconButton(onPressed: (){
+          Notificationservice().sheduleNotification(context);
+        }, icon: Icon(Icons.message))],
       ),
       body: Column(
         children: [

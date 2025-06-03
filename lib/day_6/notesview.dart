@@ -1,5 +1,4 @@
 import 'package:daily_tasks/day_5/database.dart';
-import 'package:daily_tasks/day_7/notificationService.dart';
 import 'package:flutter/material.dart';
 
 class Notesview extends StatefulWidget {
@@ -51,9 +50,6 @@ class _NotesviewState extends State<Notesview> {
             OutlinedButton(onPressed: (){
               Database().updateNotes(widget.uid, widget.notesId, text.text);
             }, child:const Text('Update')),
-            OutlinedButton(onPressed: (){
-              Notificationservice().timeNotification(context);
-            }, child:const Text('time'))
           ],
         ),
       ),

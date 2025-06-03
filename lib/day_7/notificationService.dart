@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class Notificationservice {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
@@ -38,18 +39,33 @@ class Notificationservice {
     } else {}
   }
 
-  Future<void> timeNotification(BuildContext context) async {
+ Future<void> sheduleNotification(BuildContext context) async{
+  final time =  await showTimePicker(context: context, initialTime: TimeOfDay.now());
+  final now = DateTime.now();
+  
+    var sheduleDate = tz.TZDateTime(
+      tz.local,
+    now.year,
+    now.month,
+    now.day,
+    time!.hour,
+    time.minute
+  );
 
-    final TimeOfDay? time = await showTimePicker(context: context, initialTime: currentTime);
-    print("time is $time");
-    const AndroidNotificationDetails andorid = AndroidNotificationDetails(
-        'testing', 'testnot',
-        priority: Priority.high);
-    const NotificationDetails notification = NotificationDetails(android: andorid);
-  //  if (time != null && time == TimeOfDay.now()) {
-     
- notificationsPlugin.show(1, 'Timer notification', 'Hello', notification);
-      
-  //  }
-   }
+  if (sheduleDate.isBefore(now)) {
+    sheduleDate = sheduleDate.add(const Duration(days: 1));
+  }
+
+  AndroidNotificationDetails androidNotificationDetails = const 
+        AndroidNotificationDetails('0', 'shedule', priority: Priority.high, importance: Importance.high);
+  NotificationDetails notificationDetails = NotificationDetails(
+    android: androidNotificationDetails
+  );
+  
+  await notificationsPlugin.zonedSchedule(1, 'schedule', "schedule check",
+   sheduleDate, notificationDetails,
+    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,);
+ }
+
+ 
 }

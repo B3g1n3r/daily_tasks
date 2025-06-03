@@ -4,14 +4,19 @@ import 'package:daily_tasks/day_7/notificationService.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/timezone.dart' as tz;
 
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  tz.initializeTimeZones();
+  tz.setLocalLocation(tz.getLocation('Asia/Kolkata'));
   await Firebase.initializeApp();
   final notificationService = Notificationservice();
   await notificationService.requestNotificationPermission();
   await notificationService.initialize();
+  // TimeZone.UTC.
   runApp(
     ChangeNotifierProvider(create: (_)=> Service(), 
     child: const MyApp(),)
