@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
+import 'package:android_intent_plus/android_intent.dart';
 
 class Notificationservice {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
@@ -39,32 +42,64 @@ class Notificationservice {
     } else {}
   }
 
- Future<void> sheduleNotification(BuildContext context) async{
-  final time =  await showTimePicker(context: context, initialTime: TimeOfDay.now());
+ Future<void> sheduleNotification(BuildContext context) async {
+  final time = await showTimePicker(
+    context: context,
+    initialTime: TimeOfDay.now(),
+  );
+
+  if (time == null) return;
+
   final now = DateTime.now();
-  
-    var sheduleDate = tz.TZDateTime(
-      tz.local,
+
+  // Schedule using the picked time
+  var scheduledDate = tz.TZDateTime(
+    tz.local,
     now.year,
     now.month,
     now.day,
-    time!.hour,
-    time.minute
+    time.hour,
+    time.minute,
   );
 
-  if (sheduleDate.isBefore(now)) {
-    sheduleDate = sheduleDate.add(const Duration(days: 1));
+  if (scheduledDate.isBefore(now)) {
+    scheduledDate = scheduledDate.add(const Duration(days: 1));
   }
 
-  AndroidNotificationDetails androidNotificationDetails = const 
-        AndroidNotificationDetails('0', 'shedule', priority: Priority.high, importance: Importance.high);
-  NotificationDetails notificationDetails = NotificationDetails(
-    android: androidNotificationDetails
+  const androidDetails = AndroidNotificationDetails(
+    '0',
+    'schedule',
+    importance: Importance.high,
+    priority: Priority.high,
   );
-  
-  await notificationsPlugin.zonedSchedule(1, 'schedule', "schedule check",
-   sheduleDate, notificationDetails,
-    androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,);
+
+  const notificationDetails = NotificationDetails(android: androidDetails);
+
+  print('📅 Scheduling for: $scheduledDate');
+
+  await notificationsPlugin.zonedSchedule(
+    1,
+    'Scheduled Notification',
+    'This is your scheduled reminder!',
+    scheduledDate,
+    notificationDetails,
+    androidScheduleMode: AndroidScheduleMode.inexact,
+  );
+}
+
+
+ Future<void> openExactAlarm() async{
+  if (Platform.isAndroid) {
+    const intent = AndroidIntent(
+      action: 'android.settings.REQUEST_SCHEDULE_EXACT_ALARM',
+    );
+
+    try {
+      await intent.launch();
+    } catch (e) {
+      print('error occurec $e');
+    }
+  }
  }
 
  

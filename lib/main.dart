@@ -15,6 +15,7 @@ void main() async{
   await Firebase.initializeApp();
   final notificationService = Notificationservice();
   await notificationService.requestNotificationPermission();
+  // await notificationService.openExactAlarm();
   await notificationService.initialize();
   // TimeZone.UTC.
   runApp(
