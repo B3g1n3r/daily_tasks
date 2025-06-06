@@ -87,7 +87,6 @@ class Notificationservice {
   );
 }
 
-
  Future<void> openExactAlarm() async{
   if (Platform.isAndroid) {
     const intent = AndroidIntent(
