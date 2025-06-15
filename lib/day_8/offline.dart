@@ -23,4 +23,10 @@ class Offline {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getStringList('notesList'); // same key
   }
+
+  Future<void> deleteLocalNotes(int index, List<String> notes) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    notes.removeAt(index);
+    prefs.setStringList('notesList', notes);
+  }
 }
