@@ -95,8 +95,12 @@ class _NotespageState extends State<Notespage> {
                                             notes: content)));
                           },
                           child: GestureDetector(
-                            onLongPress: () {
-                              Database().deleteNotes(user, snapData[index].id);
+                            onLongPress: () async{
+                            await Database().deleteNotes(user, snapData[index].id);
+                            await Offline().deleteLocalNotes(snapData[index]['content']);
+                              setState(() {
+
+                               });
                               Notificationservice().showNotification(doc['content'] ??'no data');
                             },
                             child: Card(

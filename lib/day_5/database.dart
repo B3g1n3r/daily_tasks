@@ -2,6 +2,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
+import 'package:daily_tasks/day_8/offline.dart';
+
 class Database {
   int a = Random().nextInt(100);
   final CollectionReference sample =
@@ -29,11 +31,13 @@ class Database {
 
   void deleteText(String id) async {
     await sample.doc('number_one').collection('new_sample').doc(id).delete();
+    
   }
 
   // notes app
   Future<void> addNotes(String id, String content) async {
     await notes.doc(id).collection('notes').add({'content': content});
+    await Offline().setNotes();
     print('notes added');
   }
 
@@ -42,12 +46,23 @@ class Database {
       return snap.docs;
     });
   }
-  void deleteNotes(String uid, String notesId) async{
+  Future<void> deleteNotes(String uid, String notesId) async{
    await notes.doc(uid).collection('notes').doc(notesId).delete();
+ 
   }
   void updateNotes(String uid, String notesId, String note) async{
     await notes.doc(uid).collection('notes').doc(notesId).set({
       'content':note
     });
   }
+
+  List<Map<String, dynamic>> snapData = [];
+
+Future<void> fetchNotes() async {
+  final snapshot = await FirebaseFirestore.instance.collection('notes').get();
+  snapData = snapshot.docs.map((doc) => {
+    'id': doc.id,
+    'content': doc['content'],
+  }).toList();
+}
 }
