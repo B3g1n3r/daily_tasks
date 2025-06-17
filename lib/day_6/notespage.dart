@@ -27,12 +27,10 @@ class _NotespageState extends State<Notespage> {
 
   List<String?> notesList = [];
 
-  void getList() async{
+  void getList() async {
     final list = await Offline().getNotes();
     notesList = list ?? [];
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -95,13 +93,15 @@ class _NotespageState extends State<Notespage> {
                                             notes: content)));
                           },
                           child: GestureDetector(
-                            onLongPress: () async{
-                            await Database().deleteNotes(user, snapData[index].id);
-                            await Offline().deleteLocalNotes(snapData[index]['content']);
-                              setState(() {
+                            onLongPress: () async {
+                              await Database()
+                                  .deleteNotes(user, snapData[index].id);
+                              await Offline()
+                                  .deleteLocalNotes(snapData[index]['content']);
 
-                               });
-                              Notificationservice().showNotification(doc['content'] ??'no data');
+                              Notificationservice().showNotification(
+                                  doc['content'] ?? 'no data');
+                                  await Offline().getNotes();
                             },
                             child: Card(
                                 color: Colors.greenAccent,
@@ -125,7 +125,6 @@ class _NotespageState extends State<Notespage> {
                   }
                 }),
           ),
-
           Expanded(
             child: notesList.isEmpty
                 ? const Center(
@@ -151,9 +150,13 @@ class _NotespageState extends State<Notespage> {
                 decoration: InputDecoration(
                   hintText: 'Notes',
                   suffix: GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      
                       Database().addNotes(user, notes.text);
-                      notes.clear();
+                      await Offline().setNotes();
+                       notes.clear();
+                       await Offline().getNotes();
+                     
                     },
                     child: const Icon(Icons.send_rounded),
                   ),
