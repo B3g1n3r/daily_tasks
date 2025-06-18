@@ -1,6 +1,7 @@
 import 'package:daily_tasks/day_4/pages/wrapper.dart';
 import 'package:daily_tasks/day_4/service/service.dart';
 import 'package:daily_tasks/day_7/notificationService.dart';
+import 'package:daily_tasks/day_9/cloud_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  const MaterialApp(
       title: 'Flutter Demo',
-      home: Wrapper(),
+      home: CloudStorage(),
     );
   }
 }
