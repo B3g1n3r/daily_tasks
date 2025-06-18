@@ -2,7 +2,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:math';
 
-import 'package:daily_tasks/day_8/offline.dart';
 
 class Database {
   int a = Random().nextInt(100);
@@ -37,7 +36,6 @@ class Database {
   // notes app
   Future<void> addNotes(String id, String content) async {
     await notes.doc(id).collection('notes').add({'content': content});
-    await Offline().setNotes();
     print('notes added');
   }
 
