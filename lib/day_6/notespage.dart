@@ -99,9 +99,9 @@ class _NotespageState extends State<Notespage> {
                               await Offline()
                                   .deleteLocalNotes(snapData[index]['content']);
 
-                              Notificationservice().showNotification(
-                                  doc['content'] ?? 'no data');
-                                  await Offline().getNotes();
+                              // Notificationservice().showNotification(
+                              //     doc['content'] ?? 'no data');
+                                  getList();
                             },
                             child: Card(
                                 color: Colors.greenAccent,
@@ -133,7 +133,6 @@ class _NotespageState extends State<Notespage> {
                 : ListView.builder(
                     itemCount: notesList.length,
                     itemBuilder: (context, index) {
-                      print('not empty');
                       return Card(
                         child: ListTile(
                           title: Text(notesList[index] ?? 'No value'),
@@ -155,7 +154,7 @@ class _NotespageState extends State<Notespage> {
                       Database().addNotes(user, notes.text);
                       await Offline().setNotes();
                        notes.clear();
-                       await Offline().getNotes();
+                       getList();
                      
                     },
                     child: const Icon(Icons.send_rounded),
